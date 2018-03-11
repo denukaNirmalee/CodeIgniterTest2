@@ -9,7 +9,7 @@ class Main extends CI_Controller {
         $this->load->view("main_view", $data);
 
         if($this->input->post("btn_for_borower_page")){
-                redirect(base_url().'main/borrower_page');
+            redirect(base_url().'main/borrower_page');
         }
 
     }
@@ -75,7 +75,9 @@ class Main extends CI_Controller {
 
 
     function borrower_page(){
-       // $this->load->view("borrower_page");
+        // $this->load->view("borrower_page");
+
+        $this->load->helper('url');
 
         if($this->input->post("btn_for_books_page")){
             redirect(base_url().'main/index');
@@ -112,11 +114,7 @@ class Main extends CI_Controller {
                 "lending_date"   =>$this->input->post("lending_date")
 
             );
-            if($this->input->post("update"))
-            {
-                $this->main_model->update_data2($data, $this->input->post("hidden_id2"));
-                redirect(base_url() . "main/updated2");
-            }
+
             if($this->input->post("insert"))
             {
                 $this->main_model->insert_borrowed($data);
@@ -135,14 +133,44 @@ class Main extends CI_Controller {
         $this->borrower_page();
     }
 
-    public function updated2(){
-        $this->borrower_page();
-    }
-
     public function view_data(){
         $id = $this->uri->segment(3);
         $this->load->model("main_model");
         $this->main_model->view_data($id);
         redirect(base_url() . "main/deleted");
+    }
+
+    public function borrow_page()
+    {
+
+        // Datatables Variables
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+
+        $this->load->model("main_model");
+        $books = $this->main_model->fetch_data2();
+
+        $data = array();
+
+        foreach($books->result() as $r) {
+
+            $data[] = array(
+                $r->borrower_name,
+                $r->borrowed_book,
+                $r->borrowed_date,
+               // $r->rating . "/10 Stars",
+                $r->lending_date
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $books->num_rows(),
+            "recordsFiltered" => $books->num_rows(),
+            "data" => $data
+        );
+        echo json_encode($output);
+        exit();
     }
 }

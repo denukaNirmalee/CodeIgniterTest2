@@ -2,11 +2,15 @@
 <html>
 <head>
     <title>Insert New Borrw Detail</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/bootstrap.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/bootstrap.min.css">
     <script src="<?php echo base_url();?>js/jquery-1.3.2.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>js/DataTables/datatables.min.css">
+    <script type="text/javascript" src="<?php echo base_url();?>js/DataTables/datatables.min.js"></script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -74,14 +78,14 @@
                 </select>
 
 
-             <!--   <input type="text" name="borrower_name" class="form-control">  -->
+                <!--   <input type="text" name="borrower_name" class="form-control">  -->
                 <span class="text-danger"><?php echo form_error("borrower_name"); ?></span>
             </div>
 
             <div class="form-group">
                 <label>Borrowed Book</label>
 
-               <select class="form-control" name="book_name">
+                <select class="form-control" name="book_name">
                     <?php
 
                     foreach($book_name as $row1)
@@ -91,7 +95,7 @@
                     ?>
                 </select>
 
-               <!-- <input type="text" name="borrowed_book" class="form-control"> -->
+                <!-- <input type="text" name="borrowed_book" class="form-control"> -->
                 <span class="text-danger"><?php echo form_error("borrowed_book"); ?></span>
             </div>
 
@@ -114,57 +118,39 @@
         }
         ?>
     </form>
-    <br/><br/>
+</div>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
 
-    <table id="" class="display" cellspacing="0" width="70%">
-        <thead>
-        <tr>
-            <th>Borrower Name</th>
-            <th>Borrowed Book</th>
-            <th>Borrowed Date</th>
-            <th>Lending Date</th>
-        </tr>
-        </thead>
-        <?php
-        if($fetch_data2->num_rows()>0)
-        {
-            foreach ($fetch_data2->result()as $row)
-            {
-                ?>
-                <tfoot>
-                <tr>
-                    <td><?php echo $row->borrower_name?></td>
-                    <td><?php echo $row->borrowed_book?></td>
-                    <td><?php echo $row->borrowed_date?></td>
-                    <td><?php echo $row->lending_date?></td>
+                <h3>Borrowed Details</h3>
 
-                </tr>
-                </tfoot>
-                <?php
-            }
-        }
-        else{
-            ?>
-            <tr>
-                <td colspan="3">No Data Found</td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
+                <table id="book-table" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr><td>Borrower Name</td><td>Borrowed Book</td><td>Borrowed Date</td><td>Lending Date</td></tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
+    </div>
 
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js">
-    $(document).ready(function() {
-            $('table.display').DataTable();
-        } );
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#book-table').DataTable({
+                "ajax": {
+                    url : "<?php echo site_url("main/borrow_page") ?>",
+                    type : 'GET'
+                },
+            });
+        });
     </script>
 
 
-</div>
 </body>
 </html>
-
-
 
 
