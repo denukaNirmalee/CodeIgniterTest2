@@ -72,9 +72,7 @@ class Main extends CI_Controller {
         $this->index();
     }
 
-
-
-    function borrower_page(){
+    public function borrower_page(){
         // $this->load->view("borrower_page");
 
         $this->load->helper('url');
@@ -90,7 +88,6 @@ class Main extends CI_Controller {
         $data['book_name'] = $this->main_model->dropdown2();
 
         $this->load->view("borrower_page", $data);
-
 
     }
 
@@ -108,10 +105,10 @@ class Main extends CI_Controller {
             //true
             $this->load->model("main_model");
             $data = array(
-                "borrower_name"     =>$this->input->post("borrower_name"),
+                "borrower_name"   =>$this->input->post("borrower_name"),
                 "borrowed_book"   =>$this->input->post("borrowed_book"),
                 "borrowed_date"   =>$this->input->post("borrowed_date"),
-                "lending_date"   =>$this->input->post("lending_date")
+                "lending_date"    =>$this->input->post("lending_date")
 
             );
 
@@ -142,7 +139,6 @@ class Main extends CI_Controller {
 
     public function borrow_page()
     {
-
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
         $start = intval($this->input->get("start"));

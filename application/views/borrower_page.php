@@ -85,7 +85,7 @@
             <div class="form-group">
                 <label>Borrowed Book</label>
 
-                <select class="form-control" name="book_name">
+                <select class="form-control" name="borrowed_book">
                     <?php
 
                     foreach($book_name as $row1)
